@@ -1,9 +1,12 @@
 require 'faraday'
+require 'pry'
 require 'json'
 require './spec/support/http_helpers'
+require './spec/support/custom_expectations'
 
 RSpec.configure do |config|
   config.include HTTPHelpers
+  config.include CustomExpectations
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

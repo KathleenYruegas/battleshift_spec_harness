@@ -4,18 +4,42 @@ module HTTPHelpers
   end
 
   def conn
-    Faraday.new(base_url) do |faraday|
+    @conn ||= Faraday.new(base_url) do |faraday|
       faraday.headers["X-API-Key"] = ENV["API_KEY"]
       faraday.adapter  Faraday.default_adapter
     end
   end
 
-  def get_json(endpoint)
-    request = conn.get(endpoint)
-    parse_json(request.body)
+  def post_json(endpoint, payload, api_key = ENV["API_KEY"])
+    request = conn.post do |req|
+      req.url endpoint
+      req.headers["X-API-Key"] = api_key
+      req.headers["CONTENT_TYPE"] = "application/json"
+      req.body = payload
+    end
+
+    JSONResponseHandler.new(request)
   end
 
-  def parse_json(json)
-    JSON.parse(json, symbolize_names: true)
+  def get_json(endpoint, api_key = ENV["API_KEY"])
+    conn.headers["X-API-Key"] = api_key
+    request = conn.get(endpoint)
+    JSONResponseHandler.new(request)
+  end
+end
+
+class JSONResponseHandler
+  attr_reader :faraday_response
+
+  def initialize(faraday_response)
+    @faraday_response = faraday_response
+  end
+
+  def body
+    JSON.parse(faraday_response.body, symbolize_names: true)
+  end
+
+  def status
+    faraday_response.status
   end
 end
