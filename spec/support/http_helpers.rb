@@ -1,6 +1,6 @@
 module HTTPHelpers
   def base_url
-    ENV["BASE_URL"] || "http://localhost:3000"
+    ENV["BATTLESHIFT_BASE_URL"] || "http://localhost:3000"
   end
 
   def conn
