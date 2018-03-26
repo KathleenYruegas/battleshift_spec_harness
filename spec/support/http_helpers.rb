@@ -5,12 +5,12 @@ module HTTPHelpers
 
   def conn
     @conn ||= Faraday.new(base_url) do |faraday|
-      faraday.headers["X-API-Key"] = ENV["API_KEY"]
+      faraday.headers["X-API-Key"] = ENV["BATTTLESHIFT_API_KEY"]
       faraday.adapter  Faraday.default_adapter
     end
   end
 
-  def post_json(endpoint, payload, api_key = ENV["API_KEY"])
+  def post_json(endpoint, payload, api_key = ENV["BATTLESHIFT_API_KEY"])
     request = conn.post do |req|
       req.url endpoint
       req.headers["X-API-Key"] = api_key
@@ -21,10 +21,20 @@ module HTTPHelpers
     JSONResponseHandler.new(request)
   end
 
-  def get_json(endpoint, api_key = ENV["API_KEY"])
+  def get_json(endpoint, api_key = ENV["BATTLESHIFT_API_KEY"])
     conn.headers["X-API-Key"] = api_key
     request = conn.get(endpoint)
     JSONResponseHandler.new(request)
+  end
+
+  def create_game(options = { opponent_email: ENV["BATTLESHIFT_OPPONENT_EMAIL"] })
+    endpoint = "/api/v1/games"
+    payload = options.to_json
+    response = post_json(endpoint, payload)
+  end
+
+  def opponent_key
+    ENV["BATTLESHIFT_OPPONENT_API_KEY"]
   end
 end
 
