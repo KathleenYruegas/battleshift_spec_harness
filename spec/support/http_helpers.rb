@@ -5,7 +5,7 @@ module HTTPHelpers
 
   def conn
     @conn ||= Faraday.new(base_url) do |faraday|
-      faraday.headers["X-API-Key"] = ENV["BATTTLESHIFT_API_KEY"]
+      faraday.headers["X-API-Key"] = ENV["BATTLESHIFT_API_KEY"]
       faraday.adapter  Faraday.default_adapter
     end
   end
