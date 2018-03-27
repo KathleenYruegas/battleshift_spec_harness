@@ -1,6 +1,6 @@
 module CustomExpectations
   def validate_game_response(game_data:, board_size:)
-    expect(game_data[:id]).to eq(1)
+    expect(game_data[:id]).to be_an Integer
     expect(game_data[:current_turn]).to be_a String
     expect(game_data[:player_1_board][:rows].count).to eq(board_size)
     expect(game_data[:player_2_board][:rows].count).to eq(board_size)
