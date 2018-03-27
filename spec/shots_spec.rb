@@ -11,7 +11,7 @@ describe "Game Shots" do
       expect(response.body[:message]).to eq("Unauthorized")
     end
 
-    xit "prevents a player from playing a game they are part of" do
+    xit "prevents a player from playing a game they are not part of" do
       # Write tests within your app to accomplish this
     end
   end
