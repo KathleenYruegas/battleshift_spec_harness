@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "Game creation and sequence" do
+  let(:board_size) { 4 }
+
   it "can create and play a game" do
     # Create the game
     response = create_game
@@ -15,7 +17,7 @@ describe "Game creation and sequence" do
 
     response = post_json("/api/v1/games/#{game_id}/ships", ship_1_payload)
 
-    expect(response.status).to be_success
+    expect(response.status).to eq(200)
 
     validate_game_response(game_data: response.body, board_size: board_size)
     expect(response.body[:message]).to include("Successfully placed ship with a size of 3. You have 1 ship(s) to place with a size of 2.")
@@ -29,7 +31,7 @@ describe "Game creation and sequence" do
 
     response = post_json("/api/v1/games/#{game_id}/ships", ship_2_payload)
 
-    expect(response.status).to be_success
+    expect(response.status).to eq(200)
 
     validate_game_response(game_data: response.body, board_size: board_size)
     expect(response.body[:message]).to include("Successfully placed ship with a size of 2. You have 0 ship(s) to place.")
