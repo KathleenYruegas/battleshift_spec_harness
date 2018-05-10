@@ -12,7 +12,8 @@ describe "Game Shots" do
     end
 
     xit "prevents a player from playing a game they are not part of" do
-      # Write tests within your app to accomplish this
+      # Write tests within your app to accomplish this.
+      # This is just a friendly reminder.
     end
   end
 end
